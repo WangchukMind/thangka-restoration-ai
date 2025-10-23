@@ -1,0 +1,92 @@
+# 唐卡修复大师 - Docker Compose配置
+# 用于本地开发和测试
+# Developed by Wangchuk Mind
+
+version: '3.8'
+
+services:
+  # 主应用服务
+  thangka-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: thangka-repair-ai
+    ports:
+      - "3000:3000"  # 前端端口
+      - "8000:8000"  # 后端API端口
+    volumes:
+      - ./Django/server/media:/app/Django/server/media
+      - ./Django/server/static:/app/Django/server/static
+      - ./logs:/app/logs
+    environment:
+      - NODE_ENV=production
+      - PYTHONPATH=/app/Django
+      - DJANGO_SETTINGS_MODULE=server.settings
+      - PADDLE_FRAMEWORK=paddle
+      - PADDLE_DEVICE=cpu
+      - MVP_MODE=true
+      - SIMPLIFIED_UI=true
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/mvp/stats/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - thangka-network
+
+  # Redis缓存服务（可选）
+  redis:
+    image: redis:7-alpine
+    container_name: thangka-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - thangka-network
+
+  # Nginx反向代理（可选）
+  nginx:
+    image: nginx:alpine
+    container_name: thangka-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - thangka-app
+    restart: unless-stopped
+    networks:
+      - thangka-network
+
+  # 数据库服务（如果需要）
+  postgres:
+    image: postgres:15-alpine
+    container_name: thangka-postgres
+    environment:
+      - POSTGRES_DB=thangka_repair
+      - POSTGRES_USER=thangka_user
+      - POSTGRES_PASSWORD=thangka_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    networks:
+      - thangka-network
+
+volumes:
+  redis_data:
+    driver: local
+  postgres_data:
+    driver: local
+
+networks:
+  thangka-network:
+    driver: bridge

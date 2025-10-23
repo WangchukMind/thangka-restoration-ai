@@ -1,0 +1,46 @@
+# Large model files (exclude from git)
+*.safetensors
+*.pdparams
+*.ckpt
+*.pth
+*.bin
+*.tar.gz
+*.h5
+*.pkl
+*.pt
+
+# Model directories
+models/
+Django/models/
+thangka1376/models/
+training_sd3/thangka_repair_dataset/
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Django
+*.log
+db.sqlite3
+media/
+staticfiles/
+
+# Virtual Environment
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
+
+# Node
+node_modules/
+
+# Environment
+.env

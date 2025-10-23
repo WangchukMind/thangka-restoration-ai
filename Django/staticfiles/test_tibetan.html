@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>藏文字体测试</title>
+    <style>
+        /* 使用系统字体，避免CORS问题 */
+        @font-face {
+            font-family: "Noto Sans Tibetan";
+            src: local("Noto Sans Tibetan"),
+                 local("Tibetan"),
+                 local("Microsoft Himalaya"),
+                 local("Kailasa"),
+                 local("Arial Unicode MS"),
+                 serif;
+            font-display: swap;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        
+        .tibetan-text {
+            font-family: "Noto Sans Tibetan", "Tibetan", "Microsoft Himalaya", "Kailasa", serif !important;
+            font-feature-settings: "liga" 1, "calt" 1;
+            text-rendering: optimizeLegibility;
+            -webkit-font-feature-settings: "liga" 1, "calt" 1;
+            -moz-font-feature-settings: "liga" 1, "calt" 1;
+            -ms-font-feature-settings: "liga" 1, "calt" 1;
+            unicode-bidi: bidi-override;
+            direction: ltr;
+            font-size: 18px;
+            line-height: 1.4;
+            word-spacing: 0.1em;
+            letter-spacing: 0.05em;
+        }
+        
+        .before {
+            background-color: #ffe6e6;
+        }
+        
+        .after {
+            background-color: #e6ffe6;
+        }
+    </style>
+</head>
+<body>
+    <h1>藏文字体显示测试</h1>
+    
+    <div class="test-section before">
+        <h2>修复前（原始样式）</h2>
+        <p>ཐང་ཀ་བཅོས་པའི་མ་ལག</p>
+        <p>ཆེད་ལས་ཀྱི་AIབཅོས་པ་ · ལོ་ཆིག་སྟོང་གི་རིག་རྩལ་ཆོས་སུ་བཟང་</p>
+        <p>སངས་རྒྱས་ཀྱི་མགོ་ཆག་པ་བཅོས་ནས་རི་མོའི་ཁྱད་ཆོས་དང་ཚོས་གཞི་མ་ཉམས་པར་བཟོ།</p>
+    </div>
+    
+    <div class="test-section after">
+        <h2>修复后（优化样式）</h2>
+        <p class="tibetan-text">ཐང་ཀ་བཅོས་པའི་མ་ལག</p>
+        <p class="tibetan-text">ཆེད་ལས་ཀྱི་AIབཅོས་པ་ · ལོ་ཆིག་སྟོང་གི་རིག་རྩལ་ཆོས་སུ་བཟང་</p>
+        <p class="tibetan-text">སངས་རྒྱས་ཀྱི་མགོ་ཆག་པ་བཅོས་ནས་རི་མོའི་ཁྱད་ཆོས་དང་ཚོས་གཞི་མ་ཉམས་པར་བཟོ།</p>
+    </div>
+    
+    <script>
+        // 初始化藏文字体函数
+        function initializeTibetanFont() {
+            if (document.fonts && document.fonts.ready) {
+                document.fonts.ready.then(() => {
+                    const tibetanElements = document.querySelectorAll('.tibetan-text');
+                    tibetanElements.forEach(el => {
+                        el.style.fontFamily = '"Noto Sans Tibetan", "Tibetan", "Microsoft Himalaya", "Kailasa", serif';
+                        el.style.fontSize = '18px';
+                        el.style.lineHeight = '1.4';
+                        el.style.fontFeatureSettings = '"liga" 1, "calt" 1';
+                        el.style.textRendering = 'optimizeLegibility';
+                    });
+                    console.log('藏文字体初始化完成');
+                });
+            } else {
+                setTimeout(() => {
+                    const tibetanElements = document.querySelectorAll('.tibetan-text');
+                    tibetanElements.forEach(el => {
+                        el.style.fontFamily = '"Noto Sans Tibetan", "Tibetan", "Microsoft Himalaya", "Kailasa", serif';
+                        el.style.fontSize = '18px';
+                        el.style.lineHeight = '1.4';
+                        el.style.fontFeatureSettings = '"liga" 1, "calt" 1';
+                        el.style.textRendering = 'optimizeLegibility';
+                    });
+                    console.log('藏文字体初始化完成（备用方案）');
+                }, 1000);
+            }
+        }
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTibetanFont();
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

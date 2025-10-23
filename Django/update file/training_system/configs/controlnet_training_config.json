@@ -1,0 +1,22 @@
+{
+  "model": {
+    "base_model": "stabilityai/stable-diffusion-3-medium",
+    "controlnet_model": "lllyasviel/control_v11p_sd15_canny",
+    "conditioning_scale": 1.0
+  },
+  "training": {
+    "learning_rate": 5e-05,
+    "batch_size": 2,
+    "num_epochs": 200,
+    "save_steps": 1000,
+    "eval_steps": 200,
+    "gradient_accumulation_steps": 8,
+    "max_grad_norm": 1.0
+  },
+  "data": {
+    "train_data_dir": "./datasets/thangka_images",
+    "conditioning_data_dir": "./datasets/thangka_edges",
+    "resolution": 1024,
+    "center_crop": true
+  }
+}

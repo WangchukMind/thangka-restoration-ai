@@ -1,0 +1,183 @@
+# 唐卡修复大师 - 包发布工作流
+# 自动发布npm包和Docker镜像到GitHub Packages
+# Developed by Wangchuk Mind
+
+name: Publish Packages
+
+on:
+  push:
+    tags:
+      - 'v*'  # 当推送版本标签时触发
+  release:
+    types: [published]  # 当发布release时触发
+  workflow_dispatch:  # 手动触发
+
+env:
+  NODE_VERSION: '18'
+  PYTHON_VERSION: '3.9'
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  # 发布npm包
+  publish-npm:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@wangchukmind'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          cd client && npm ci
+
+      - name: Build application
+        run: |
+          npm run build
+
+      - name: Run tests
+        run: |
+          npm run test
+
+      - name: Publish to GitHub Packages
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # 发布Docker镜像
+  publish-docker:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # 发布到公共npm registry（可选）
+  publish-npm-public:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [publish-npm, publish-docker]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+
+      - name: Publish to public npm registry
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  # 创建GitHub Release
+  create-release:
+    runs-on: ubuntu-latest
+    needs: [publish-npm, publish-docker]
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            ## 🎨 唐卡修复大师 v${{ github.ref_name }}
+            
+            ### ✨ 新功能
+            - AI智能唐卡修复
+            - 文化学习功能
+            - 双模式界面（网页版+终端版）
+            - 简化操作流程
+            
+            ### 📦 安装方式
+            
+            **npm包安装:**
+            ```bash
+            npm install @wangchukmind/thangka-repair-ai
+            ```
+            
+            **Docker镜像使用:**
+            ```bash
+            docker pull ghcr.io/wangchukmind/thangka-restoration-ai:latest
+            docker run -p 3000:3000 -p 8000:8000 ghcr.io/wangchukmind/thangka-restoration-ai:latest
+            ```
+            
+            ### 🚀 快速开始
+            1. 安装依赖: `npm install`
+            2. 启动应用: `npm start`
+            3. 访问: http://localhost:3000
+            
+            ### 📖 文档
+            - [使用说明](https://github.com/WangchukMind/thangka-restoration-ai#readme)
+            - [API文档](http://localhost:8000/api/mvp/)
+            - [部署指南](https://github.com/WangchukMind/thangka-restoration-ai/blob/main/DEPLOYMENT.md)
+            
+            ### 🏆 技术特色
+            - PaddlePaddle + LoRA技术
+            - React + Django架构
+            - 现代化UI设计
+            - 文化教育集成
+            
+            ---
+            **开发者**: Wangchuk Mind
+          draft: false
+          prerelease: false

@@ -1,0 +1,42 @@
+{
+  "system": {
+    "name": "Advanced Thangka AI System",
+    "version": "2.0.0",
+    "description": "先进唐卡修复与大语言模型系统",
+    "author": "wangchukMind"
+  },
+  "server": {
+    "host": "0.0.0.0",
+    "port": 8080,
+    "workers": 4,
+    "timeout": 300,
+    "max_requests": 1000
+  },
+  "gpu": {
+    "enabled": true,
+    "device_ids": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "memory_fraction": 0.9,
+    "allow_growth": true
+  },
+  "storage": {
+    "models_path": "./models",
+    "cache_path": "./cache",
+    "logs_path": "./logs",
+    "temp_path": "./temp"
+  },
+  "api": {
+    "rate_limit": "100/minute",
+    "max_file_size": "50MB",
+    "allowed_formats": [
+      "png",
+      "jpg",
+      "jpeg"
+    ],
+    "timeout": 300
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "thangka_elements": {
+    "buddha": {
+      "description": "佛陀形象",
+      "key_features": [
+        "坐姿",
+        "手势",
+        "法衣",
+        "光环"
+      ],
+      "repair_priority": "highest",
+      "training_samples": 500
+    },
+    "bodhisattva": {
+      "description": "菩萨形象",
+      "key_features": [
+        "慈悲相",
+        "装饰",
+        "法器",
+        "姿态"
+      ],
+      "repair_priority": "high",
+      "training_samples": 400
+    },
+    "deity": {
+      "description": "护法神形象",
+      "key_features": [
+        "威严相",
+        "武器",
+        "坐骑",
+        "装饰"
+      ],
+      "repair_priority": "high",
+      "training_samples": 300
+    },
+    "lotus": {
+      "description": "莲花图案",
+      "key_features": [
+        "花瓣",
+        "花蕊",
+        "茎叶",
+        "色彩"
+      ],
+      "repair_priority": "medium",
+      "training_samples": 200
+    },
+    "mandala": {
+      "description": "曼陀罗图案",
+      "key_features": [
+        "几何形状",
+        "对称性",
+        "色彩",
+        "细节"
+      ],
+      "repair_priority": "medium",
+      "training_samples": 300
+    },
+    "clouds": {
+      "description": "云彩图案",
+      "key_features": [
+        "形状",
+        "层次",
+        "色彩",
+        "流动感"
+      ],
+      "repair_priority": "low",
+      "training_samples": 150
+    },
+    "mountains": {
+      "description": "山峦图案",
+      "key_features": [
+        "轮廓",
+        "层次",
+        "纹理",
+        "色彩"
+      ],
+      "repair_priority": "low",
+      "training_samples": 100
+    }
+  },
+  "training_config": {
+    "element_detection": {
+      "model": "YOLOv8",
+      "confidence_threshold": 0.7,
+      "iou_threshold": 0.5
+    },
+    "element_segmentation": {
+      "model": "SAM",
+      "points_per_side": 32,
+      "pred_iou_thresh": 0.88
+    },
+    "element_inpainting": {
+      "base_model": "stabilityai/stable-diffusion-3-inpainting",
+      "controlnet": "lllyasviel/control_v11p_sd15_canny",
+      "lora_rank": 32,
+      "learning_rate": 0.0001,
+      "batch_size": 2
+    }
+  }
+}

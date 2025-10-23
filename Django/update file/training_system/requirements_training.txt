@@ -1,1 +1,0 @@
-torch>=2.1.0\ntorchvision>=0.16.0\npaddlepaddle-gpu>=2.6.0\ndiffusers>=0.24.0\ntransformers>=4.35.0\naccelerate>=0.24.0\npeft>=0.6.0\ndatasets>=2.14.0\nopencv-python>=4.8.0\nPillow>=10.0.0\nnumpy>=1.24.0\nscikit-image>=0.21.0\nsafetensors>=0.4.0\nwandb>=0.16.0\ntensorboard>=2.15.0\ntqdm>=4.66.0\nmatplotlib>=3.7.0\nseaborn>=0.12.0

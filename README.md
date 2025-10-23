@@ -14,6 +14,12 @@
 
 This system represents a breakthrough in cultural heritage preservation, combining state-of-the-art AI technology with traditional Thangka art restoration. Developed by **Wangchuk Mind**, it leverages advanced diffusion models and LoRA fine-tuning to provide high-quality, real-time image restoration capabilities for preserving traditional Tibetan Buddhist art.
 
+### Project Links
+- **Complete System**: [GitHub Repository](https://github.com/WangchukMind/thangka-restoration-ai)
+- **Model Repository**: [Hugging Face Models](https://huggingface.co/Wangchuk1376/ThangkaModels)
+- **Online Demo**: [Demo Site](https://api-ydh5rc33c7a9bbs2.aistudio-app.com/)
+- **Technical Documentation**: [Documentation](https://github.com/WangchukMind/thangka-restoration-ai/wiki)
+
 ## 🔧 Core Technologies
 
 - **PaddlePaddle** deep learning framework for efficient GPU acceleration
@@ -56,52 +62,7 @@ This system represents a breakthrough in cultural heritage preservation, combini
 - CUDA-capable GPU (recommended)
 - 8GB+ RAM
 
-### Installation
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/WangchukMind/thangka-restoration-ai.git
-   cd thangka-restoration-ai
-   ```
-
-2. **Install Python dependencies**
-   ```bash
-   cd Django
-   pip install -r requirements_paddle.txt
-   ```
-
-3. **Install frontend dependencies**
-   ```bash
-   cd client
-   npm install
-   ```
-
-4. **Download model files**
-   ```bash
-   # Follow the guide in MODEL_DOWNLOAD.md
-   # Models are hosted separately due to size constraints
-   ```
-
-5. **Start the system**
-   ```bash
-   # Backend
-   cd Django
-   python start_server.py runserver
-
-   # Frontend (in another terminal)
-   cd client
-   npm start
-   ```
-
-### Docker Deployment
-
-```bash
-# Build and run with Docker
-docker-compose up --build
-
-# Or use the quick deployment script
-./quick_deploy.sh
-```
 
 ## 📁 Project Structure
 
@@ -115,16 +76,6 @@ thangka-restoration-ai/
 │   │   └── static/          # Static files
 │   ├── requirements_paddle.txt
 │   └── start_server.py      # Main startup script
-├── client/                   # React frontend
-│   ├── src/                 # Source code
-│   │   ├── components/      # React components
-│   │   ├── pages/          # Page components
-│   │   └── services/       # API services
-│   └── public/             # Static assets
-├── code/                    # Development scripts
-├── training/               # Model training code
-├── thangka_restoration/    # Standalone restoration module
-├── FastAPI_Server/         # Alternative FastAPI backend
 └── docs/                   # Documentation
 ```
 
@@ -187,14 +138,7 @@ This system plays a crucial role in:
 - **Shape Matching**: Intelligent 2D to 2D transformation
 - **Processing Speed**: Real-time streaming with intermediate results
 - **Memory Efficiency**: Optimized PaddlePaddle parameter handling
-- **Accuracy**: 95%+ cultural authenticity preservation
 
-### System Performance
-- **API Response Time**: <100ms for model loading
-- **Streaming Latency**: <50ms for intermediate results
-- **Concurrent Users**: Supports 10+ simultaneous users
-- **Scalability**: Docker and cloud deployment ready
-- **Reliability**: 99.9% uptime with comprehensive error handling
 
 ## 🔬 Technical Architecture
 
@@ -226,25 +170,6 @@ Input Image → Preprocessing → LoRA Application → Diffusion → Postprocess
 - **Deployment**: Multi-platform deployment configuration
 - **Documentation**: Comprehensive technical documentation
 
-## 📈 Roadmap
-
-### Version 1.1 (Q2 2024)
-- [ ] Multi-language support (Tibetan, Chinese, English)
-- [ ] Advanced batch processing
-- [ ] Museum collection management
-- [ ] API rate limiting and authentication
-
-### Version 1.2 (Q3 2024)
-- [ ] Mobile app development
-- [ ] Cloud deployment optimization
-- [ ] Advanced LoRA model training
-- [ ] Cultural heritage database integration
-
-### Version 2.0 (Q4 2024)
-- [ ] 3D Thangka restoration
-- [ ] VR/AR integration
-- [ ] International museum partnerships
-- [ ] Academic research collaboration
 
 ## 🤝 Contributing
 
@@ -265,14 +190,6 @@ We welcome contributions to improve this cultural heritage preservation tool:
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- Traditional Thangka artists and cultural heritage experts
-- PaddlePaddle development team for framework support
-- Open source community contributors
-- Cultural heritage preservation organizations
-- Academic institutions supporting digital humanities
 
 ## 📞 Contact & Support
 

@@ -284,11 +284,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📚 Documentation
 
-- [Deployment Guide](DEPLOYMENT.md)
+- [Deployment Guide]([DEPLOYMENT.md](https://github.com/WangchukMind/thangka-restoration-ai/wiki))
 - [Model Download Guide](MODEL_DOWNLOAD.md)
-- [Project Summary](PROJECT_SUMMARY.md)
-- [API Documentation](docs/API.md)
-- [Training Guide](training/README.md)
 
 ## 🌟 Star History
 
